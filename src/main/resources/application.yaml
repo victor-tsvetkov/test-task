@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/task_db
+    username: admin
+    password: 1234
+
+  liquibase:
+    change-log: db/changelog/changelog.yaml
+
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
