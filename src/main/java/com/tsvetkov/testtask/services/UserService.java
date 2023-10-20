@@ -18,7 +18,7 @@ public class UserService {
         return userRepository.getReferenceById(id);
     }
 
-    public void addOrUpdateUser(UserDto userDto) {
+    public User addOrUpdateUser(UserDto userDto) {
         User user;
         UUID id = userDto.getId();
         if (id != null) {
@@ -30,6 +30,7 @@ public class UserService {
         user.setAge(userDto.getAge());
         user.setPassword(userDto.getPassword());
         userRepository.save(user);
+        return user;
     }
 
 }

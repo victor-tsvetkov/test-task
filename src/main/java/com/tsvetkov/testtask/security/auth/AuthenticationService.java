@@ -1,8 +1,10 @@
 package com.tsvetkov.testtask.security.auth;
 
+import com.tsvetkov.testtask.dto.UserDto;
 import com.tsvetkov.testtask.entities.User;
 import com.tsvetkov.testtask.repositories.UserRepository;
 import com.tsvetkov.testtask.security.jwt.JwtService;
+import com.tsvetkov.testtask.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,14 +18,14 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        User user = new User();
-        user.setName(request.getName());
-        user.setAge(request.getAge());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        userRepository.save(user);
-        String jwtToken = jwtService.generateToken(user);
+        UserDto userDto = new UserDto();
+        userDto.setName(request.getName());
+        userDto.setAge(request.getAge());
+        userDto.setPassword(passwordEncoder.encode(request.getPassword()));
+        String jwtToken = jwtService.generateToken(userService.addOrUpdateUser(userDto));
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 

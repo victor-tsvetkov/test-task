@@ -20,6 +20,12 @@ public class HouseController {
         houseService.addOrUpdateHouse(houseDto);
     }
 
+    @GetMapping("isPersonOwnerOfHouse")
+    public boolean isPersonOwnerOfHouse(@RequestParam(value = "idPerson") UUID idPerson,
+                                        @RequestParam(value = "idHouse") UUID idHouse) {
+        return houseService.isPersonOwner(idPerson, idHouse);
+    }
+
     @GetMapping("getById")
     public House getHouseById(@RequestParam(value = "id") UUID id) {
         return houseService.getHouseById(id);

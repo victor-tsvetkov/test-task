@@ -29,9 +29,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         String jwt;
         final String username;
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (request.getRequestURI().contains("register") || request.getRequestURI().contains("authenticate")) {
             filterChain.doFilter(request, response);
             return;
+        }
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new ServletException("Bearer toked is required");
         }
         jwt = authHeader.substring(7);
         username = jwtService.extractUsername(jwt);
